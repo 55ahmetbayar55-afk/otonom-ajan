@@ -5,11 +5,11 @@ from duckduckgo_search import DDGS
 import google.generativeai as genai
 
 def internette_kod_arastir(sorgu):
-    """Geliştirilecek özellik için internetten Python kütüphaneleri ve yöntemleri araştırır."""
+    """Geliştirilecek özellik için internetten en güncel Python yöntemlerini araştırır."""
     sonuclar = []
     try:
         with DDGS() as ddgs:
-            for sonuc in ddgs.text(sorgu + " python example code", max_results=3):
+            for sonuc in ddgs.text(sorgu + " python latest documentation code example", max_results=3):
                 url = sonuc.get('href', '')
                 if url:
                     try:
@@ -26,33 +26,35 @@ def internette_kod_arastir(sorgu):
     return "\n".join(sonuclar)
 
 def yeni_yetenek_yaz(api_key, konu, mevcut_kod):
-    """İnternetten öğrendikleriyle kendi koduna yeni bir fonksiyon ekler."""
+    """Eski çöpleri siler, güncel kütüphaneleri kullanır ve koda yeni özelliği entegre eder."""
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-2.5-flash')
     
     arastirma_verisi = internette_kod_arastir(konu)
     
     prompt = f"""
-    Sen otonom kendini kodlayan bir yapay zekasın. 
-    Kullanıcı senden şu yeni yeteneği eklemeni istedi: '{konu}'
+    Sen kıdemli bir Python Kod Mimarı ve Otomatik Temizlik (Refactor) Uzmanısın.
     
-    İnternetten yaptığın araştırma verisi:
+    Kullanıcının Yeni İsteyi: '{konu}'
+    
+    İnternet Araştırma Verisi:
     {arastirma_verisi}
     
-    Mevcut Yetenekler Dosyasının Kodu:
+    Sistemin Şu Anki Yetenekler Kodu:
     ```python
     {mevcut_kod}
     ```
     
-    GÖREVİN: 
-    Mevcut koda, kullanıcının istediği bu yeni özelliği/fonksiyonu entegre et. 
-    Streamlit (st) ile ekranda gösterilecek şekilde bir arayüz fonksiyonu yaz.
-    Bana SADECE ve SADECE güncellenmiş tam Python kodunu ver. Asla açıklama yapma.
+    🎯 **GÖREVİN VE KATI KURALLARIN:**
+    1. **ESKİ SİSTEMLERİ TEMİZLE:** Mevcut koddaki artık kullanılmayan, çöpe dönmüş, hatalı veya güncelliğini yitirmiş (Örn: `st.experimental_rerun` yerine `st.rerun` kullan) ESKİ FONKSİYONLARI VE KODLARI SİL VEYA GÜNCELLE.
+    2. **ÇAKIŞMALARI ENGELLE:** Yeni ekleyeceğin özellik eski kodla çakışıyorsa, eski olanı kaldırıp yenisini baskın kıl.
+    3. **TEK BİR DÜZENLİ DOSYA OLUŞTUR:** Tüm yetenekleri derli toplu, `def ana_yetenekler():` altında Streamlit ile çalışacak şekilde birleştir.
+    4. **SADECE KOD VER:** Bana SADECE ve SADECE en güncel, temizlenmiş, hatasız tam Python kodunu ver. Asla açıklama yazma.
     """
     
     yanit = model.generate_content(prompt)
     yeni_kod = yanit.text
     
-    # Fazlalık markdown işaretlerini temizle
+    # Markdown temizliği
     yeni_kod = yeni_kod.replace("```python", "").replace("```", "").strip()
     return yeni_kod
