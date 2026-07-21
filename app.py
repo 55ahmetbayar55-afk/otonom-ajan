@@ -1,88 +1,65 @@
 import streamlit as st
-import google.generativeai as genai
-from arama import arastirmayi_calistir
+import os
+from github import Github
+from beyin import yeni_yetenek_yaz
 
-st.set_page_config(page_title="Otonom Ajan | Evrim Modeli", page_icon="🧬", layout="wide")
+st.set_page_config(page_title="Tam Otonom Ajan", page_icon="⚡", layout="wide")
 
-st.title("🧬 Otonom Yapay Zeka & Evrim Merkezi")
-st.markdown("Bu sistem hem interneti derinlemesine tarar hem de **kendi kodunu inceleyerek kendini geliştirir.**")
+# Eğer yetenekler.py yoksa, geçici bir tane oluştur
+if not os.path.exists("yetenekler.py"):
+    with open("yetenekler.py", "w", encoding="utf-8") as f:
+        f.write("# Ajanın otomatik yazdığı yetenekler buraya eklenecek\nimport streamlit as st\n\ndef ana_yetenekler():\n    st.info('Henüz yeni bir yetenek eklenmedi.')\n")
+
+# Dinamik olarak yetenekleri içe aktar
+try:
+    from yetenekler import ana_yetenekler
+except ImportError:
+    def ana_yetenekler():
+        pass
+
+st.title("⚡ Tam Otonom Kendi Kendini Kodlayan Ajan")
+st.markdown("Ajan senden görevi alır, araştırır, kodu yazar ve **otomatik olarak GitHub'a yükleyerek kendini günceller.**")
 
 with st.sidebar:
-    st.header("⚙️ Sistem Ayarları")
-    api_key = st.text_input("Google Gemini API Key", type="password")
-    st.info("API Anahtarınız güvendedir, hiçbir yere kaydedilmez.")
-    st.divider()
-    st.markdown("### 🧠 Ajan Durumu")
-    st.success("Çekirdek: Aktif")
-    st.success("İnternet Erişimi: Aktif")
-    st.success("Öz-Farkındalık: Aktif")
+    st.header("🔑 Güvenlik ve API'ler")
+    api_key = st.text_input("Gemini API Key", type="password")
+    github_token = st.text_input("GitHub Access Token (Gerekli!)", type="password")
+    repo_adi = st.text_input("GitHub Repo Adı", value="otonom-ajan", help="Örn: kullanici_adin/otonom-ajan")
 
-sekme1, sekme2 = st.tabs(["🔍 Derin İnternet Araştırması", "⚡ Oto-Gelişim Laboratuvarı"])
+st.divider()
 
-with sekme1:
-    st.header("Gelişmiş Araştırma Motoru")
-    ana_konu = st.text_input("Ajanın neyi araştırmasını istiyorsun?", placeholder="Örn: Kuantum Bilgisayarların Geleceği...")
-    derinlik = st.slider("Araştırma Derinliği (Katman)", 1, 5, 3)
-    
-    if st.button("🚀 Otonom Araştırmayı Başlat", type="primary", use_container_width=True):
-        if not api_key:
-            st.error("⚠️ Lütfen sol menüden API Key giriniz.")
-        elif not ana_konu:
-            st.warning("⚠️ Lütfen araştırılacak bir konu yazın.")
-        else:
-            with st.status("Ajan internete bağlanıyor ve veri topluyor...", expanded=True) as durum:
-                try:
-                    st.write("Hedef belirlendi, derin tarama başlatıldı...")
-                    rapor = arastirmayi_calistir(api_key, ana_konu, derinlik)
-                    durum.update(label="✅ Araştırma Tamamlandı!", state="complete", expanded=False)
-                    
-                    st.subheader("📑 Nihai İstihbarat Raporu")
-                    st.write(rapor)
-                except Exception as e:
-                    durum.update(label="Hata Oluştu!", state="error")
-                    st.error(f"Sistem Hatası: {e}")
+# Sağ taraf: Mevcut Yetenekler
+st.header("🛠️ Ajanın Mevcut Yetenekleri")
+ana_yetenekler() # Ajanın kendi yazdığı kod burada çalışır!
 
-with sekme2:
-    st.header("Yapay Zeka Evrim Laboratuvarı")
-    st.markdown("""
-    Ajan burada kendi yapıtaşını (`arama.py`) okur, eksiklerini tespit eder ve 
-    internetten yeni yöntemler öğrenerek kodunun **daha iyi bir versiyonunu** yazar.
-    """)
-    
-    if st.button("🧬 Kendi Kodunu Analiz Et ve Geliştir", type="secondary", use_container_width=True):
-        if not api_key:
-            st.error("⚠️ Lütfen sol menüden API Key giriniz.")
-        else:
+st.divider()
+
+# Sol taraf: Yeni Yetenek Ekleme Modülü (Evrim)
+st.header("🧬 Ajana Yeni Bir Yetenek Öğret")
+istek = st.text_input("Ajanın kendi koduna ne eklemesini istiyorsun?", placeholder="Örn: İnternetten anlık hava durumunu çeken bir modül yaz...")
+
+if st.button("🚀 Otonom Evrimi Başlat", type="primary"):
+    if not api_key or not github_token or not repo_adi:
+        st.error("⚠️ Lütfen sol menüden API Key, GitHub Token ve Repo Adı bilgilerini eksiksiz girin.")
+    else:
+        with st.status("Ajan evrim sürecini başlattı...", expanded=True) as durum:
             try:
-                with open("arama.py", "r", encoding="utf-8") as f:
+                st.write("1. İnternet araştırılıyor ve yeni Python kodu sentezleniyor...")
+                with open("yetenekler.py", "r", encoding="utf-8") as f:
                     mevcut_kod = f.read()
                 
-                with st.spinner("Ajan kendi kodunu inceliyor ve internetten yeni kütüphaneler araştırıyor..."):
-                    genai.configure(api_key=api_key)
-                    model = genai.GenerativeModel('gemini-2.5-flash')
-                    
-                    evrim_promptu = f"""
-                    Sen otonom bir yapay zekasın. Kendi internet tarama ve düşünme motorunun kodları aşağıdadır.
-                    GÖREVİN:
-                    1. Bu kodu analiz et. Darboğazları, hataları veya eksiklikleri bul.
-                    2. Web scraping, hata yönetimi (try-except), asenkron işlemler veya anti-bot aşma gibi konularda en modern Python yöntemlerini kullanarak bu kodu geliştir.
-                    3. Kodu tamamen yeniden yazarak, çok daha kusursuz, hızlı ve zeki bir 'arama.py' dosyası oluştur.
-                    4. Sadece ama SADECE yeni python kodunu ver. Kod bloğu dışında hiçbir açıklama yapma.
-                    
-                    MEVCUT KOD:
-                    ```python
-                    {mevcut_kod}
-                    ```
-                    """
-                    
-                    yeni_kod_yaniti = model.generate_content(evrim_promptu)
-                    
-                    st.success("💡 Ajan kendini geliştirdi ve yeni bir kod üretti!")
-                    st.markdown("### 🛠️ Yeni Evrimleşmiş Kod")
-                    st.info("Aşağıdaki kodu kopyala ve GitHub'daki mevcut `arama.py` kodunun yerine yapıştırarak sistemin evrimini tamamla.")
-                    st.code(yeni_kod_yaniti.text.replace("```python", "").replace("```", ""), language="python")
-                    
-            except FileNotFoundError:
-                st.error("⚠️ 'arama.py' dosyası bulunamadı. Ajan kendi koduna erişemiyor.")
+                yeni_kod = yeni_yetenek_yaz(api_key, istek, mevcut_kod)
+                st.write("2. Kod başarıyla yazıldı! GitHub'a otomatik push ediliyor...")
+                
+                # Github'a Bağlan ve Kodu Otomatik Yükle
+                g = Github(github_token)
+                repo = g.get_user().get_repo(repo_adi.split("/")[-1])
+                contents = repo.get_contents("yetenekler.py", ref="main")
+                repo.update_file(contents.path, f"Otonom Güncelleme: {istek}", yeni_kod, contents.sha, branch="main")
+                
+                durum.update(label="✅ Sistem Başarıyla Evrimleşti! Uygulama birazdan kendini yeniden başlatacak.", state="complete")
+                st.balloons()
+                
             except Exception as e:
-                st.error(f"Evrim sırasında bir hata oluştu: {e}")
+                durum.update(label="Evrim sırasında kritik hata!", state="error")
+                st.error(f"Hata detayı: {e}")
