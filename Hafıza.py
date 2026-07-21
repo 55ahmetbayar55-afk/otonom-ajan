@@ -93,3 +93,5 @@ def yeni_yetenek_yaz(api_key, konu, mevcut_kod):
     # AI'ın fazladan koyabileceği Markdown etiketlerini temizle
     yeni_kod = yeni_kod.replace("```python", "").replace("```", "").strip()
     return yeni_kod
+    5. **ASLA ESKİ KODU KOPYALAYip YAMAMA (KATI KURAL):** Eski kodda yer alan mükerrer (duplicate), eski sürüm veya çakışan fonksiyonları tamamen çöpe at. Asla aynı işi yapan iki farklı sürüm bırakma. Sadece kullanıcının isteğini yerine getiren, en baştan yazılmış TEK ve TERTEMİZ bir kod blok yapısı kur.
+    
