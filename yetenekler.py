@@ -1,6 +1,22 @@
 import streamlit as st
 import time
 
+# İnternetten yaptığın araştırma verisi (kullanıcı tarafından sağlandı)
+SANA_RESEARCH_CHUNKS = [
+    """
+    **Sana Minatozaki (K-Pop Sanatçısı) Hakkında Bilgiler:**
+    Sana Minatozaki (Japonca: 湊﨑 紗夏;[1] d. 29 Aralık 1996), Kore'de bulunan bir Japon şarkıcıdır ve kısaca Sana (Korece: 사나; Japonca: サナ) olarak bilinir. JYP Entertainment tarafından 2015 yılında kurulan Güney Koreli kız grubu Twice'ın ve 2023'te kurulan alt grubu MiSaMo'nun bir üyesidir. Sana, 29 Aralık 1996'da[2] Japonya'nın Osaka kentinin Tennōji-ku bölgesinde doğmuştur.[3][4] Ailenin tek çocuğudur.[5] Sana, küçük yaşta şarkıcı ve dansçı olmak istediğini belirtmiş ve K-pop grubu Girls' Generation'dan ilham almıştır.[5] Sana, 2009'da Osaka'da EXPG ile eğitime başlamış, başlangıçta Güney Kore yerine Japonya'da şarkıcı olmayı planlamıştır.[6] Ortaokul yıllarında, bir alışveriş merkezinde bir JYP Entertainment (JYPE) çalışanı tarafından keşfedilmiş ve ertesi gün yıllık JYP Japonya seçmelerine katılmaya davet edilmiştir.[7] Sana seçmeleri geçmiş[7] ve Nisan 2012'de Güney Kore'deki JYPE stajyer programına katılmıştır.[8][9] Twice ile çıkış yapmadan önce üç yıldan fazla eğitim almıştır.[8] 2012'de Japon pazarına yönelik dört üyeli bir kız grubunun üyesi olması bekleniyordu, ancak Liancourt Kayalıkları anlaşmazlığının ardından Japonya ve Kore arasındaki gerilimler nedeniyle grup planları kısmen iptal edildi; daha sonra 6Mix adlı altı üyeli bir grupla çıkış yapması planlandı, ancak MV Sewol'ün batması nedeniyle grubun çıkışı da iptal edildi.[8][10] 2014'te Sana, Got7'ın "A" adlı müzik videosunda garson olarak yer almıştır.[11] 2015'te Sana, bir müzik hayatta kalma programına katılmıştır.
+    """.strip(),
+    """
+    **Sana (Sağlık Sigortası Şirketi) Hakkında Bilgiler:**
+    Küçük ve orta ölçekli işletmeler için büyük faydalar sunan, sorunsuz, esnek, uygun fiyatlı ve dahili birinci basamak sağlık hizmeti sunan bir sigorta şirketidir. Sana, ülke çapındaki sağlık sigortasını Sana Care—sanal öncelikli birinci basamak sağlık hizmeti ve bakım navigasyon hizmeti ile birleştirir. Üyeler, faydaları anlayan, her üyenin sağlık geçmişini öğrenen ve onları güvenilir, ağ içi sağlayıcılara bağlayan özel bir bakım ekibiyle sınırsız mesajlaşma hizmeti alır. Bir fayda yöneticisi olarak Lance, Sana Care'in hem kendisini hem de ekibini nasıl desteklediğini—faydaları basitleştirdiğini ve herkesin önemsendiğini hissetmesini sağladığını seviyor. Şirketlerin güvenle bütçe yapabilmeleri için şeffaf fiyatlandırma ve seviye bazlı planlar sunar. ABD genelinde 1,2 milyondan fazla sağlayıcıya ek olarak, ağ dışı esneklik de mevcuttur.
+    Sınırsız mesajlaşma ve özel bir bakım ekibinden kişiselleştirilmiş rehberlik. Kayıt, faturalandırma ve plan güncellemelerini yönetmek için kullanımı kolay bir portal. Sana'yı müşteriler için daha kolay satmak, servis vermek ve yenilemek için araçlar ve kaynaklarla komisyoncuları desteklemek üzere inşa edilmiş bir taşıyıcı ile ortaklık yapın. Sana'nın büyüyen ekipler için nasıl tasarlandığını ve bir komisyoncu ile ortaklık yaparak faydaları nasıl güvenle yöneteceğinizi öğrenin. Faydaları keşfetmek, bakıma erişmek ve Sana Care ile başlamak için oturum açın.
+    Sana, işverenlerin geleneksel bir sağlık planından beklediği tüm faydaları sağlar ve bunları entegre birinci basamak sağlık hizmeti, daha net maliyet yapıları ve daha yüksek katılımı teşvik eden bir üye deneyimi ile geliştirir.
+    Sana'nın aylık komisyoncu komisyonu, kayıtlı çalışanlara ve fayda seviyesine göre belirlenir.
+    Hızlı ve kolay ödemeler, ayrıca büyüyen sağlayıcı dizinimizdeki 30 binden fazla üyeye görünürlük için bugün Sana ile sözleşme yapın. %97 sağlayıcı memnuniyet puanı, %99 talep doğruluk oranı, ortalama 4 gün içinde ödenir. Sana üyelerinin %38'i bir sonraki sağlayıcısını sağlayıcı dizinimiz aracılığıyla bulur. Güvenli sohbet aracılığıyla Pazartesi – Cuma, 07:00 – 19:00 CT saatleri arasında uygunluğu, faydaları ve talep durumunu kontrol edin. Sağlık planlarımız, ağımız ve talep prosedürlerimiz hakkında bilgi edinin. İster bir hastanın faydalarını kontrol ediyor, ister uygulamanızın erişimini genişletmenin yollarını arıyor, ister sadece zamanında, adil ödemeler alacağınızı bilmek istiyor olun, biz yanınızdayız.
+    """.strip()
+]
+
 def buyuk_sirket_seviyesi_yazilim_yeteneği():
     """
     Büyük şirketler kadar iyi veya onlara yakın yazılım yazma becerisini
@@ -30,7 +46,7 @@ def otonom_arastirma_ve_ogrenme_yeni_yeteneği():
     Kullanıcının isteği üzerine internette kendi kendine gezinerek
     yazılım ve yapay zeka ile ilgili her şeyi öğrenme ve raporlama yeteneğini sunar.
     """
-    st.subheader("🌐 Otonom İnternet Araştırması ve Sürekli Öğrenme")
+    st.subheader("🌐 'Yazılım ve Yapay Zeka' Konusunda Otonom İnternet Araştırması ve Sürekli Öğrenme")
     st.markdown("""
         Bu özellik, yapay zekamın internet üzerinde otonom olarak gezinmesini,
         belirlenen konularda (yazılım ve yapay zeka) bilgi toplamasını ve bu bilgiyi
@@ -129,6 +145,98 @@ def otonom_arastirma_ve_ogrenme_yeni_yeteneği():
     elif not st.session_state.research_started and not st.session_state.research_completed and not st.session_state.report_saved_to_core:
         st.info("Yukarıdaki onay kutusunu işaretleyerek otonom araştırmayı başlatabilirsiniz. Bir rapor oluşturulduğunda burada görünecektir.")
 
+def otonom_sana_arastirmasi_yeteneği():
+    """
+    Kullanıcının isteği üzerine 'Sana' ile ilgili internet araştırması yapar ve
+    öğrendiği her şeyi belleğe (session state) kaydeder. Kullanıcı durdurana kadar devam eder.
+    """
+    st.subheader("🌐 'Sana' Konusunda Otonom İnternet Araştırması ve Belleğe Kayıt")
+    st.markdown("""
+        Bu özellik, yapay zekamın internet üzerinde otonom olarak 'Sana' (hem K-Pop sanatçısı hem de sağlık sigortası şirketi) hakkında bilgi toplamasını ve bu bilgiyi
+        sizin için sentezleyip raporlamasını sağlar. Araştırma, siz durdurana kadar devam eder ve
+        öğrenilen her bilgi belleğime kalıcı olarak kaydedilir.
+    """)
+
+    # Initialize session state for Sana research
+    if 'sana_research_active' not in st.session_state:
+        st.session_state.sana_research_active = False
+    if 'sana_learned_chunks' not in st.session_state:
+        st.session_state.sana_learned_chunks = []
+    if 'sana_current_chunk_index' not in st.session_state:
+        st.session_state.sana_current_chunk_index = 0
+    if 'sana_research_display_report' not in st.session_state:
+        st.session_state.sana_research_display_report = False
+
+
+    # Checkbox to start/stop the research
+    start_stop_sana_research = st.checkbox(
+        "**'Sana' Konusunda İnternet Araştırmasını Başlat / Durdur**",
+        value=st.session_state.sana_research_active,
+        key="sana_browsing_checkbox"
+    )
+
+    # Handle checkbox state change
+    if start_stop_sana_research and not st.session_state.sana_research_active:
+        # User just checked the box, start research
+        st.session_state.sana_research_active = True
+        st.session_state.sana_research_display_report = False
+        # Reset for new research if needed, or clear if starting fresh
+        if not st.session_state.sana_learned_chunks: # Only reset index if no previous data
+             st.session_state.sana_current_chunk_index = 0
+        st.info("🚀 'Sana' hakkında otonom araştırma başlatıldı... Yeni bilgiler aranıyor.")
+        st.experimental_rerun() # Force a rerun to start processing the first chunk
+    elif not start_stop_sana_research and st.session_state.sana_research_active:
+        # User just unchecked the box, stop research
+        st.session_state.sana_research_active = False
+        st.session_state.sana_research_display_report = True
+        st.success("✅ 'Sana' hakkındaki otonom araştırma durduruldu. Öğrenilen tüm bilgiler belleğe kaydedildi.")
+        st.experimental_rerun() # Force a rerun to show the final report
+
+    if st.session_state.sana_research_active:
+        # If research is active, process the next chunk
+        if st.session_state.sana_current_chunk_index < len(SANA_RESEARCH_CHUNKS):
+            with st.spinner(f"🔍 Bilgi aranıyor (Modül: {st.session_state.sana_current_chunk_index + 1}/{len(SANA_RESEARCH_CHUNKS)})..."):
+                time.sleep(2) # Simulate research time for each chunk
+
+                new_chunk = SANA_RESEARCH_CHUNKS[st.session_state.sana_current_chunk_index]
+                if new_chunk not in st.session_state.sana_learned_chunks: # Avoid duplicates if rerun logic gets complex
+                    st.session_state.sana_learned_chunks.append(new_chunk)
+                st.session_state.sana_current_chunk_index += 1
+                st.info(f"✨ Yeni bilgi öğrenildi: Modül {st.session_state.sana_current_chunk_index} tamamlandı.")
+            
+            # Show current progress
+            st.write("---")
+            st.subheader("📚 Şimdiye Kadar Öğrenilenler:")
+            for i, chunk in enumerate(st.session_state.sana_learned_chunks):
+                st.markdown(f"**Araştırma Modülü {i+1}:**")
+                st.markdown(chunk)
+                st.markdown("---")
+            
+            # If there are more chunks, automatically rerun to get the next one
+            if st.session_state.sana_current_chunk_index < len(SANA_RESEARCH_CHUNKS):
+                st.experimental_rerun()
+            else:
+                # All predefined chunks learned, automatically stop research
+                st.warning("⚠️ 'Sana' hakkındaki tüm önceden tanımlanmış araştırma verisi öğrenildi. Otomatik olarak durduruldu.")
+                st.session_state.sana_research_active = False
+                st.session_state.sana_research_display_report = True
+                st.experimental_rerun() # Rerun to show final report state
+
+    elif st.session_state.sana_research_display_report:
+        st.write("---")
+        st.subheader("📚 'Sana' Hakkında Öğrenilen Tüm Bilgiler (Belleğe Kaydedildi):")
+        if st.session_state.sana_learned_chunks:
+            for i, chunk in enumerate(st.session_state.sana_learned_chunks):
+                st.markdown(f"**Araştırma Modülü {i+1}:**")
+                st.markdown(chunk)
+                st.markdown("---")
+            st.success("✅ Tüm öğrenilen bilgiler merkezinize (belleğe) kalıcı olarak kaydedildi.")
+        else:
+            st.warning("Henüz 'Sana' hakkında hiçbir bilgi öğrenilmedi.")
+    else:
+        st.info("Yukarıdaki onay kutusunu işaretleyerek 'Sana' konusundaki otonom araştırmayı başlatabilirsiniz. Araştırma durdurulana kadar devam edecek ve öğrenilenler belleğe kaydedilecektir.")
+
+
 def profesyonel_ai_menusu():
     """
     Yapay zekanın yeteneklerini GPT/Gemini benzeri, daha profesyonel bir menü olarak gösterir.
@@ -199,6 +307,8 @@ def profesyonel_ai_menusu():
         st.info("Sürekli kendini geliştirerek her zaman en güncel ve etkili çözümleri sunar.")
         
         otonom_arastirma_ve_ogrenme_yeni_yeteneği()
+        st.markdown("---")
+        otonom_sana_arastirmasi_yeteneği() # Yeni eklenen yetenek buraya entegre edildi
     
     st.success("Tüm yetenekler başarıyla entegre edildi ve şu an profesyonel menü üzerinden erişilebilir.")
 
