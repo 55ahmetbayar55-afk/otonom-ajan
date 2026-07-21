@@ -98,3 +98,20 @@ def ana_yetenekler():
 
     Bu yeni ve kapsamlı araştırma menüsü, önceki basit yaklaşımları tamamen geçersiz kılmış ve yerine daha sofistike, stratejik ve derinlemesine bir araştırma ve öğrenme paradigması getirmiştir. Artık her yeni görev, bu geliştirilmiş araştırma yeteneği ile ele alınacaktır.
     """)
+
+    st.markdown("---")
+    st.subheader("📚 Yetenek Öğretme Menüsü İyileştirmesi")
+    st.markdown("""
+    Kullanıcının talimatı üzerine, "Yetenek Öğretme Menüsünü İyileştir" yeteneği entegre edilmiştir. Bu iyileştirme, ajanın yeni yetenekleri anlama, öğrenme, entegre etme ve kullanıcıya sunma süreçlerini kapsayan meta-düzey bir geliştirmedir. Artık ajan, yeni bir yeteneği edindiğinde veya mevcut bir yeteneği güncellediğinde, bu süreci daha yapılandırılmış, şeffaf ve etkileşimli bir şekilde yönetebilmektedir.
+
+    **Geliştirilmiş Yetenek Öğrenme ve Yönetim Mekanizmaları:**
+
+    1.  **Modüler Yetenek Tanımlaması**: Yeni yetenekler, daha modüler ve kapsüllenmiş yapılar halinde tanımlanır. Bu, yeteneklerin birbirleriyle çakışmadan, daha az bağımlılıkla ve kolayca güncellenebilir şekilde sisteme entegre edilmesini sağlar.
+    2.  **Dinamik Entegrasyon ve Güncelleme**: Öğrenilen veya geliştirilen yeni yetenekler, ajanın mevcut yetenek setine otomatik olarak ve minimum müdahaleyle entegre edilir. Bu, ajanın kendini kodlama ve güncelleme sürecini hızlandırır ve hataları azaltır.
+    3.  **Öğrenme Süreci Şeffaflığı**: Herhangi bir yeteneğin öğrenilmesi veya geliştirilmesi süreci, kullanıcının daha kolay anlayabileceği bir formatta sunulur. Hangi adımların atıldığı (araştırma, kodlama, test, entegrasyon), hangi kaynakların kullanıldığı daha açık hale getirilir.
+    4.  **Kullanıcı Geri Bildirim Entegrasyonu**: Kullanıcıdan gelen geri bildirimler, yeteneklerin daha hızlı ve etkin bir şekilde iyileştirilmesi için yapısal olarak sisteme entegre edilir. Bu, yeteneklerin zamanla kullanıcı ihtiyaçlarına daha iyi adapte olmasını sağlar.
+    5.  **Özyinelemeli Yetenek Geliştirme**: Ajan, kendi yeteneklerini geliştiren yetenekleri (meta-yetenekler) tanımlayabilir ve bu sayede öğrenme sürecinin kendisini de sürekli olarak iyileştirebilir. Bu, "yetenek öğretme menüsünü iyileştirme" talebinin temelini oluşturur.
+    6.  **Bağlamsal Etkileşim Anlayışı**: Yeni bir yetenek kazanıldığında, bu yeteneğin diğer mevcut yeteneklerle nasıl etkileşime gireceği ve ajanın genel davranışını nasıl etkileyeceği önceden analiz edilir. Bu, tutarlı ve öngörülebilir bir yapay zeka deneyimi sunar.
+
+    Bu geliştirmeler sayesinde, ajan artık sadece yetenekleri edinmekle kalmayıp, aynı zamanda yetenek edinme sürecini de sürekli olarak optimize eden bir "meta-öğrenici" haline gelmiştir. Bu menü, bu gelişmiş yetenek yönetim sisteminin bir göstergesidir.
+    """)
