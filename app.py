@@ -1,15 +1,12 @@
 import streamlit as st
 import google.generativeai as genai
-import os
 from arama import arastirmayi_calistir
 
-# Sayfa tasarımını geniş ve profesyonel yapıyoruz
 st.set_page_config(page_title="Otonom Ajan | Evrim Modeli", page_icon="🧬", layout="wide")
 
 st.title("🧬 Otonom Yapay Zeka & Evrim Merkezi")
 st.markdown("Bu sistem hem interneti derinlemesine tarar hem de **kendi kodunu inceleyerek kendini geliştirir.**")
 
-# Sol Menü (Ayarlar)
 with st.sidebar:
     st.header("⚙️ Sistem Ayarları")
     api_key = st.text_input("Google Gemini API Key", type="password")
@@ -20,10 +17,8 @@ with st.sidebar:
     st.success("İnternet Erişimi: Aktif")
     st.success("Öz-Farkındalık: Aktif")
 
-# İki ana bölme oluşturuyoruz: Biri araştırma, diğeri kendini geliştirme için
 sekme1, sekme2 = st.tabs(["🔍 Derin İnternet Araştırması", "⚡ Oto-Gelişim Laboratuvarı"])
 
-# --- 1. SEKME: ARAŞTIRMA MODÜLÜ ---
 with sekme1:
     st.header("Gelişmiş Araştırma Motoru")
     ana_konu = st.text_input("Ajanın neyi araştırmasını istiyorsun?", placeholder="Örn: Kuantum Bilgisayarların Geleceği...")
@@ -47,7 +42,6 @@ with sekme1:
                     durum.update(label="Hata Oluştu!", state="error")
                     st.error(f"Sistem Hatası: {e}")
 
-# --- 2. SEKME: KENDİ KENDİNİ GELİŞTİRME (EVRİM) MODÜLÜ ---
 with sekme2:
     st.header("Yapay Zeka Evrim Laboratuvarı")
     st.markdown("""
@@ -60,13 +54,12 @@ with sekme2:
             st.error("⚠️ Lütfen sol menüden API Key giriniz.")
         else:
             try:
-                # Ajan kendi arama motoru kodunu okuyor
                 with open("arama.py", "r", encoding="utf-8") as f:
                     mevcut_kod = f.read()
                 
                 with st.spinner("Ajan kendi kodunu inceliyor ve internetten yeni kütüphaneler araştırıyor..."):
                     genai.configure(api_key=api_key)
-                    model = genai.GenerativeModel('gemini-2.5-pro') # Evrim için daha zeki model
+                    model = genai.GenerativeModel('gemini-2.5-flash')
                     
                     evrim_promptu = f"""
                     Sen otonom bir yapay zekasın. Kendi internet tarama ve düşünme motorunun kodları aşağıdadır.
