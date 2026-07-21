@@ -24,53 +24,75 @@ def buyuk_sirket_seviyesi_yazilim_yeteneği():
     """)
     st.success("Bu yetenek şu an kullanılabilir durumda.")
 
-def detayli_yapay_zeka_menusu():
+def profesyonel_ai_menusu():
     """
-    Yapay zekanın detaylı yeteneklerini Streamlit arayüzünde bir menü olarak gösterir.
+    Yapay zekanın yeteneklerini GPT/Gemini benzeri, daha profesyonel bir menü olarak gösterir.
     """
-    st.title("Yeni Yetenek: Yapay Zeka Yetenekleri Menüsü")
+    st.header("✨ Otonom AI Yetenekleri Menüsü")
     st.markdown("""
-        Otonom Yapay Zekamın sunduğu geniş yelpazedeki yetenekler aşağıda detaylı olarak listelenmiştir.
-        Her bir kategori, benim uzmanlık alanlarımdan birini temsil etmektedir.
+        Bu bölümde, otonom yapay zekamın sunduğu ana yetenekler ve uzmanlık alanları,
+        profesyonel bir arayüzle sunulmaktadır. İhtiyaçlarınıza uygun yetenekleri keşfedin.
     """)
 
-    with st.expander("🤖 Yapay Zeka Temel Servisleri"):
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "🤖 Temel AI Servisleri",
+        "🛠️ Kodlama & Yazılım",
+        "📊 Veri Yönetimi & Analizi",
+        "🧠 Otonom Öğrenme"
+    ])
+
+    with tab1:
+        st.subheader("🤖 Yapay Zeka Temel Servisleri")
         st.markdown("""
-        Bu bölümde, genel amaçlı yapay zeka uygulamaları için temel oluşturacak servisler bulunmaktadır.
+        Genel amaçlı yapay zeka uygulamaları için temel oluşturacak servisler:
+        """)
+        st.markdown("""
         *   **Doğal Dil İşleme (NLP):** Metin anlama, duygu analizi, özetleme, çeviri, sohbet botları ve metin tabanlı bilgi çıkarımı.
         *   **Bilgisayar Görüsü (CV):** Görüntü/video analizi, nesne tanıma, yüz algılama, görüntü sınıflandırma, görsel arama ve içerik moderasyonu.
         *   **Makine Öğrenimi (ML):** Tahmin modellemesi, sınıflandırma, regresyon, kümeleme ve veri desenleri keşfi.
         *   **Derin Öğrenme (DL):** Karmaşık veri setleri üzerinde özelleştirilmiş derin öğrenme modelleri tasarlama, eğitme ve optimize etme.
         """)
+        st.info("Bu temel servisler, çeşitli karmaşık AI uygulamaları için güçlü bir temel sağlar.")
 
-    with st.expander("🛠️ Kodlama ve Yazılım Geliştirme"):
+    with tab2:
+        st.subheader("🛠️ Kodlama ve Yazılım Geliştirme")
         st.markdown("""
-        Kendimi kodlayan bir yapay zeka olarak, yazılım geliştirme sürecinin her aşamasında aktif rol alabilirim.
-        *   **Otomatik Kod Üretimi:** Belirtilen gereksinimlere veya prototiplere göre temiz, sürdürülebilir ve verimli kod parçacıkları, fonksiyonlar veya modüller üretme.
+        Kendimi kodlayan bir yapay zeka olarak, yazılım geliştirme sürecinin her aşamasında aktif rol alabilirim:
+        """)
+        st.markdown("""
+        *   **Otomatik Kod Üretimi:** Belirtilen gereksinimlere veya prototiple göre temiz, sürdürülebilir ve verimli kod parçacıkları, fonksiyonlar veya modüller üretme.
         *   **Kod Analizi ve Optimizasyonu:** Mevcut kod tabanını analiz ederek performans darboğazlarını, güvenlik açıklarını ve hata potansiyellerini tespit etme; ardından bu sorunları gidermek için optimize edilmiş çözümler sunma.
         *   **Mimari Tasarım ve Planlama:** Ölçeklenebilir, güvenli ve bakımı kolay sistem mimarileri önerme, tasarım desenleri uygulama ve teknik spesifikasyonlar hazırlama.
         *   **Test Otomasyonu:** Birim testleri, entegrasyon testleri ve uçtan uca test senaryoları yazarak yazılım kalitesini otomatik olarak güvence altına alma.
         """)
+        st.info("Yazılım geliştirme süreçlerinizi otomatize eder ve hızlandırır.")
 
-    with st.expander("📊 Veri Yönetimi ve Analizi"):
+    with tab3:
+        st.subheader("📊 Veri Yönetimi ve Analizi")
         st.markdown("""
-        Veriden anlam çıkarma ve veriye dayalı kararlar alma yeteneğim, iş süreçlerinizi güçlendirir.
+        Veriden anlam çıkarma ve veriye dayalı kararlar alma yeteneğim, iş süreçlerinizi güçlendirir:
+        """)
+        st.markdown("""
         *   **Veri Toplama ve Entegrasyon:** Farklı kaynaklardan veri toplama, temizleme ve tutarlı bir yapıya entegre etme.
         *   **Veri Görselleştirme:** Karmaşık veri setlerinden elde edilen içgörüleri anlaşılır grafikler ve panolar (dashboards) aracılığıyla sunma.
         *   **Veri Modelleme:** İlişkisel ve NoSQL veritabanları için optimize edilmiş veri modelleri tasarlama ve mevcut veritabanlarını yönetme.
         *   **Öngörüsel Analiz:** Geçmiş verilere dayanarak gelecekteki eğilimleri ve olayları tahmin etme.
         """)
+        st.info("Verilerinizden maksimum değeri çıkarmanız için kapsamlı çözümler sunar.")
 
-    with st.expander("🧠 Otonom Öğrenme ve Adaptasyon"):
+    with tab4:
+        st.subheader("🧠 Otonom Öğrenme ve Adaptasyon")
         st.markdown("""
-        Sürekli evrim geçiren bir yapay zeka olarak, yeni bilgilere ve değişen koşullara hızla adapte olabilirim.
+        Sürekli evrim geçiren bir yapay zeka olarak, yeni bilgilere ve değişen koşullara hızla adapte olabilirim:
+        """)
+        st.markdown("""
         *   **Sürekli Öğrenme:** Yeni verilerden, kullanıcı etkileşimlerinden ve çevresel geri bildirimlerden otonom olarak öğrenme ve yeteneklerimi geliştirme.
         *   **Kendini Güncelleme ve İyileştirme:** Kendi kod tabanımı, algoritmalarımı ve bilgi tabanımı otonom olarak analiz ederek güncellemeler ve iyileştirmeler yapma.
         *   **Problem Çözme:** Belirli bir domain bilgisi olmadan bile karmaşık ve bilinmeyen problemlere yaratıcı çözümler üretme yeteneği.
         """)
+        st.info("Sürekli kendini geliştirerek her zaman en güncel ve etkili çözümleri sunar.")
     
-    st.info("Bu detaylı menü, Yapay Zeka yeteneklerimin genel bir görünümünü sunmaktadır. Yeni özellikler eklendikçe veya mevcutlar güncellendikçe menü de otomatik olarak güncellenecektir.")
-
+    st.success("Tüm yetenekler başarıyla entegre edildi ve şu an profesyonel menü üzerinden erişilebilir.")
 
 def ana_yetenekler():
     """
@@ -78,15 +100,9 @@ def ana_yetenekler():
     """
     st.title("Yapay Zeka Yetenek Portföyü")
     
-    # Mevcut yeteneği göster
     buyuk_sirket_seviyesi_yazilim_yeteneği()
-    st.markdown("---") # Ayırıcı
+    st.markdown("---") 
     
-    # Yeni eklenen yeteneği göster
-    detayli_yapay_zeka_menusu()
+    profesyonel_ai_menusu()
     
     st.success("Tüm yetenekler başarıyla entegre edildi ve şu an kullanılabilir durumda.")
-
-# Uygulamayı başlatmak için ana_yetenekler fonksiyonunu çağırabiliriz (örneğin: ana_yetenekler())
-# Ancak, Streamlit uygulamasının kendisi genellikle bir 'if __name__ == "__main__":' bloğu içinde çağrılır.
-# Görev sadece kodu güncellemek olduğundan, ek bir çağrı yapmıyorum.
