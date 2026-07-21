@@ -1,108 +1,59 @@
 import time
-import logging
-import re
 import requests
 from bs4 import BeautifulSoup
 from duckduckgo_search import DDGS
 import google.generativeai as genai
+import re
 
-logging.basicConfig(level=logging.INFO)
-
-def metni_temizle(ham_metin):
-    if not ham_metin:
-        return ""
-    temizlenmis = re.sub(r'\s+', ' ', ham_metin)
-    return temizlenmis.strip()
-
-def internette_ara(sorgu, maksimum_sonuc=3):
-    bulunan_sonuclar = []
+def internette_kod_arastir(sorgu):
+    """Geliştirilecek özellik için internetten Python kütüphaneleri ve yöntemleri araştırır."""
+    sonuclar = []
     try:
         with DDGS() as ddgs:
-            for sonuc in ddgs.text(sorgu, max_results=maksimum_sonuc):
-                baslik = sonuc.get('title', 'Başlık Yok')
+            for sonuc in ddgs.text(sorgu + " python example code", max_results=3):
                 url = sonuc.get('href', '')
-                ozet = sonuc.get('body', '')
                 if url:
-                    bulunan_sonuclar.append({
-                        'title': baslik,
-                        'href': url,
-                        'body': ozet
-                    })
-    except Exception as e:
-        logging.error(f"Arama hatası: {e}")
-    return bulunan_sonuclar
+                    try:
+                        headers = {'User-Agent': 'Mozilla/5.0'}
+                        yanit = requests.get(url, headers=headers, timeout=5)
+                        if yanit.status_code == 200:
+                            soup = BeautifulSoup(yanit.text, 'html.parser')
+                            metin = " ".join([p.get_text() for p in soup.find_all(['p', 'pre', 'code'])])
+                            sonuclar.append(metin[:1500])
+                    except:
+                        pass
+    except:
+        pass
+    return "\n".join(sonuclar)
 
-def sayfa_icerigi_oku(url, zaman_asimi=5):
-    try:
-        basliklar = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        }
-        yanit = requests.get(url, headers=basliklar, timeout=zaman_asimi)
-        if yanit.status_code == 200:
-            soup = BeautifulSoup(yanit.text, 'html.parser')
-            for element in soup(["script", "style", "nav", "footer", "header", "aside"]):
-                element.decompose()
-            paragraflar = soup.find_all('p')
-            birlesmis_metin = " ".join([p.get_text() for p in paragraflar])
-            temiz_metin = metni_temizle(birlesmis_metin)
-            return temiz_metin[:2500]
-        return ""
-    except Exception:
-        return ""
-
-def arastirmayi_calistir(api_key, ana_konu, derinlik_seviyesi=3):
-    if not api_key:
-        raise ValueError("Google Gemini API anahtarı girilmedi!")
-        
+def yeni_yetenek_yaz(api_key, konu, mevcut_kod):
+    """İnternetten öğrendikleriyle kendi koduna yeni bir fonksiyon ekler."""
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-2.5-flash')
     
-    toplanan_hafiza = []
-    mevcut_sorgu = ana_konu
-    islenen_urller = set()
+    arastirma_verisi = internette_kod_arastir(konu)
     
-    for seviye in range(1, derinlik_seviyesi + 1):
-        arama_sonuclari = internette_ara(mevcut_sorgu, maksimum_sonuc=3)
-        okunan_metinler_bu_tur = []
-        
-        for sonuc in arama_sonuclari:
-            url = sonuc.get('href')
-            if url and url not in islenen_urller:
-                islenen_urller.add(url)
-                icerik = sayfa_icerigi_oku(url)
-                if icerik:
-                    okunan_metinler_bu_tur.append(icerik)
-        
-        if not okunan_metinler_bu_tur:
-            continue
-            
-        tur_verisi = " ".join(okunan_metinler_bu_tur)
-        toplanan_hafiza.append(f"[Derinlik Seviyesi {seviye} Verileri]: {tur_verisi[:1500]}")
-        
-        if seviye < derinlik_seviyesi:
-            yonlendirici_prompt = (
-                f"Ana Konu: '{ana_konu}'\n"
-                f"Şu anki turda elde edilen metin:\n{tur_verisi[:1000]}\n\n"
-                f"GÖREV: Bu metne dayanarak konunun daha derinlerine inmek için "
-                f"en kritik 1 adet arama kelime öbeği üret. Sadece arama terimini yaz."
-            )
-            try:
-                yanit_model = model.generate_content(yonlendirici_prompt)
-                yeni_terim = yanit_model.text.strip()
-                mevcut_sorgu = f"{ana_konu} {yeni_terim}"
-            except Exception:
-                pass
-                
-        time.sleep(1)
-
-    if not toplanan_hafiza:
-        return "Üzgünüm, internet taraması sonucunda bu konuyla ilgili yeterli veri toplanamadı."
-
-    nihai_sentez_prompt = (
-        f"Aşağıda internetten otonom taranarak toplanmış veriler yer almaktadır:\n\n"
-        f"{str(toplanan_hafiza)}\n\n"
-        f"GÖREV: '{ana_konu}' hakkında detaylı, profesyonel ve kapsamlı bir araştırma raporu yaz."
-    )
+    prompt = f"""
+    Sen otonom kendini kodlayan bir yapay zekasın. 
+    Kullanıcı senden şu yeni yeteneği eklemeni istedi: '{konu}'
     
-    nihai_rapor = model.generate_content(nihai_sentez_prompt)
-    return nihai_rapor.text
+    İnternetten yaptığın araştırma verisi:
+    {arastirma_verisi}
+    
+    Mevcut Yetenekler Dosyasının Kodu:
+    ```python
+    {mevcut_kod}
+    ```
+    
+    GÖREVİN: 
+    Mevcut koda, kullanıcının istediği bu yeni özelliği/fonksiyonu entegre et. 
+    Streamlit (st) ile ekranda gösterilecek şekilde bir arayüz fonksiyonu yaz.
+    Bana SADECE ve SADECE güncellenmiş tam Python kodunu ver. Asla açıklama yapma.
+    """
+    
+    yanit = model.generate_content(prompt)
+    yeni_kod = yanit.text
+    
+    # Fazlalık markdown işaretlerini temizle
+    yeni_kod = yeni_kod.replace("```python", "").replace("```", "").strip()
+    return yeni_kod
