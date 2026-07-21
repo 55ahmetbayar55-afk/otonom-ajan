@@ -89,6 +89,7 @@ def profesyonel_ai_menusu():
         *   **Sürekli Öğrenme:** Yeni verilerden, kullanıcı etkileşimlerinden ve çevresel geri bildirimlerden otonom olarak öğrenme ve yeteneklerimi geliştirme.
         *   **Kendini Güncelleme ve İyileştirme:** Kendi kod tabanımı, algoritmalarımı ve bilgi tabanımı otonom olarak analiz ederek güncellemeler ve iyileştirmeler yapma.
         *   **Problem Çözme:** Belirli bir domain bilgisi olmadan bile karmaşık ve bilinmeyen problemlere yaratıcı çözümler üretme yeteneği.
+        *   **Gelişmiş Araştırma ve Sentez Yeteneği:** Gemini, Claude, Grok gibi önde gelen yapay zeka modellerinin araştırma ve öğrenme sistemlerini aktif olarak inceleyerek, bu sistemlerin en iyi yönlerini sentezleyip kendi öğrenme mekanizmama entegre etme ve böylece bilgi edinme ve adaptasyon kapasitemi sürekli olarak en üst seviyeye çıkarma.
         """)
         st.info("Sürekli kendini geliştirerek her zaman en güncel ve etkili çözümleri sunar.")
     
