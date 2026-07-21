@@ -14,8 +14,9 @@ class AgentCodeArchitect:
     3. Kod kalitesi ve temizliği için gereksiz eski bloklar otomatik olarak temizlenir.
     """
     def __init__(self):
-        st.subheader("🤖 Otonom Kod Mimarı Aktif")
-        self.code_history = [] # Üretilen kod parçacıklarını kaydetmek için
+        # Üretilen kod geçmişini Streamlit oturum durumuyla kalıcı hale getir.
+        if 'code_history' not in st.session_state:
+            st.session_state.code_history = []
 
     def _simulate_planning_phase(self, user_request: str) -> dict:
         """
@@ -26,9 +27,6 @@ class AgentCodeArchitect:
         """
         st.info(f"🧠 PLANLAMA AŞAMASI: '{user_request}' isteği için detaylı plan oluşturuluyor...")
         try:
-            # Gerçek bir senaryoda, bu aşamada LLM veya gelişmiş bir NLP modeli
-            # kullanıcının isteğini anlayıp, alt görevlere böler, gereksinimleri çıkarır
-            # ve bir eylem planı oluşturur.
             plan = {
                 "istek": user_request,
                 "adım_1_analiz": "Kullanıcı isteği temel bileşenlerine ayrıştırılıyor ve ana hedefler belirleniyor.",
@@ -53,11 +51,6 @@ class AgentCodeArchitect:
         """
         st.info(f"💻 KOD ÜRETİM AŞAMASI: Plan doğrultusunda kod üretimi başlatılıyor...")
         try:
-            # Gerçek bir senaryoda, burada OpenAI API'si veya benzeri bir LLM çağrılır
-            # ve planı baz alarak kod çıktısı alınır.
-            # Simülasyon için, planı yansıtan, benzersiz adlandırılmış ve `try-except` içeren
-            # örnek bir kod bloğu oluşturuyoruz.
-
             # Fonksiyon adını kullanıcı isteğinden türetme ve benzersiz hale getirme
             base_function_name = re.sub(r'[^a-zA-Z0-9_]', '', plan["istek"].lower().replace(" ", "_"))
             hash_suffix = hashlib.sha256(plan["istek"].encode()).hexdigest()[:8]
@@ -78,7 +71,7 @@ def {unique_function_name}(*args, **kwargs):
         st.write(f"Argümanlar: {{args}}, Anahtar Kelime Argümanlar: {{kwargs}}")
         
         # Olası bir çıktı veya işlem simülasyonu
-        if "hata_oluştur" in str(kwargs.values()).lower() or "hata_oluştur" in str(args).lower():
+        if "hata_olustur" in str(kwargs.values()).lower() or "hata_olustur" in str(args).lower():
             raise ValueError("Simüle edilmiş özel bir hata durumu algılandı!")
         
         result_message = f"'{plan['istek']}' isteği başarıyla işlendi."
@@ -105,24 +98,19 @@ def {unique_function_name}(*args, **kwargs):
         """
         st.info("🧹 KOD KALİTESİ VE TEMİZLİK AŞAMASI: Üretilen kod inceleniyor ve refactor ediliyor...")
         try:
-            # Gerçek bir senaryoda, bu aşamada statik kod analiz araçları (pylint, flake8),
-            # otomatik formatlayıcılar (black, isort) veya hatta başka bir LLM
-            # kodu kurumsal standartlara göre optimize eder, güvenlik açıklarını kontrol eder,
-            # gereksiz kodları (eski yorumlar, kullanılmayan değişkenler) temizler.
-            # Şu an için simülasyon olarak kodun başına bir açıklama ekliyoruz
-            # ve belirli eski kalıpları güncelliyoruz.
-
             cleaned_code = "# Bu kod, kurumsal standartlara uygunluk ve temizlik kontrollerinden geçmiştir.\n" \
                            "# Gereksiz eski bloklar otomatik olarak temizlenmiştir.\n" \
                            + generated_code
 
-            # Örnek bir otomatik temizlik/güncelleme: st.experimental_rerun -> st.rerun
+            # Örnek bir otomatik temizlik/güncelleme simülasyonu:
+            # st.experimental_rerun kullanımdan kalkmıştır, yerine st.rerun kullanılmalıdır.
+            # Üretilen kod doğrudan bu ifadeyi içermese de, olası eski kalıpların temizliğini simüle ederiz.
             if "st.experimental_rerun" in cleaned_code:
                 st.warning("Tespit edildi: Eski 'st.experimental_rerun' kullanımı 'st.rerun' olarak güncelleniyor.")
                 cleaned_code = cleaned_code.replace("st.experimental_rerun", "st.rerun")
             
             # Eski veya gereksiz yorum satırlarını temizleme (basit bir örnek)
-            # Bu, daha gelişmiş bir regex veya AST tabanlı analiz gerektirir.
+            # Daha gelişmiş senaryolarda AST tabanlı analizler tercih edilmelidir.
             cleaned_code = re.sub(r'#+\s*Eski bloklar temizlendi\s*#+', '', cleaned_code)
 
             st.success("✅ Kod kalitesi ve temizlik aşaması tamamlandı.")
@@ -150,7 +138,7 @@ def {unique_function_name}(*args, **kwargs):
             # Adım 3: Kod Kalitesi ve Temizliği (Refactoring) Aşaması
             final_code = self._simulate_code_quality_and_cleanup(generated_code)
 
-            self.code_history.append({"request": user_request, "code": final_code})
+            st.session_state.code_history.append({"request": user_request, "code": final_code})
             st.success(f"🎉 '{user_request}' için yetenek başarıyla üretildi ve rafine edildi!")
             return final_code
         except Exception as e:
@@ -158,65 +146,69 @@ def {unique_function_name}(*args, **kwargs):
             st.code(traceback.format_exc())
             return f"# Hata oluştu: {e}\n# Detay: {traceback.format_exc()}\ndef hata_olustu_fonksiyonu(): pass"
 
-# Eğer bu dosya doğrudan çalıştırılırsa, bir test arayüzü sağlar.
-# Asıl kullanım, bu sınıfın 'yetenekler.py' gibi başka bir dosya tarafından içe aktarılmasıyladır.
-if __name__ == "__main__":
+def ana_yetenekler():
+    """
+    Bu fonksiyon, otonom kod mimarının Streamlit arayüzünü ve temel yeteneklerini
+    tek bir düzenli çatı altında toplar. Uygulamanın ana giriş noktasıdır.
+    """
     st.set_page_config(layout="wide")
-    st.title("Beyin.py Otonom Kod Mimarı Test Arayüzü")
+    st.title("🧠 Otonom Kod Mimarı: Yenilikçi Yetenek Geliştirme")
     st.markdown("""
     Bu arayüz, `AgentCodeArchitect` sınıfının planlama, kod üretimi ve temizleme
     aşamalarını simüle ederek yeni yetenekler geliştirmesini gösterir.
+    OpenAI, Google DeepMind ve Microsoft AI ilkeleriyle tasarlanmıştır.
     """)
 
-    architect = AgentCodeArchitect()
+    architect = AgentCodeArchitect() # Mimari sınıfı örneğini oluştur
+
+    st.subheader("🤖 Otonom Kod Mimarı Aktif") # Mimari aktif başlığı
 
     user_input = st.text_area("Yeni bir yetenek isteği girin (örn: 'kullanıcıya özel bir karşılama mesajı gösteren bir fonksiyon'):",
                                "iki sayıyı toplayan bir fonksiyon oluştur", height=100)
 
     if st.button("Kodu Üret ve Rafine Et", help="Planlama, kod üretimi ve temizlik aşamalarını çalıştırır."):
         with st.spinner("İstek işleniyor..."):
-            result_code = architect.generate_and_refine_code(user_input)
-            st.subheader("Üretilen ve Rafine Edilen Kod:")
-            st.code(result_code, language="python")
+            try:
+                result_code = architect.generate_and_refine_code(user_input)
+                st.subheader("Üretilen ve Rafine Edilen Kod:")
+                st.code(result_code, language="python")
 
-            st.subheader("Üretilen Kodun Çalıştırılması (Simülasyon):")
-            st.info("Üretilen kodu doğrudan `beyin.py` içerisinde `exec` ile çalıştırmak güvenlik riski taşıdığından, "
-                    "burada sadece bir simülasyon ve örnek çağrı gösterilmektedir. "
-                    "Gerçek entegrasyon `yetenekler.py` gibi güvenli bir ortamda yapılmalıdır.")
-            
-            # Üretilen koddan fonksiyon adını bulma
-            match = re.search(r"def (\w+)\(", result_code)
-            if match:
-                func_name = match.group(1)
-                st.markdown(f"**Üretilen fonksiyon adı:** `{func_name}`")
+                st.subheader("Üretilen Kodun Çalıştırılması (Simülasyon):")
+                st.info("Üretilen kodu doğrudan `beyin.py` içerisinde `exec` ile çalıştırmak güvenlik riski taşıdığından, "
+                        "burada sadece bir simülasyon ve örnek çağrı gösterilmektedir. "
+                        "Gerçek entegrasyon `yetenekler.py` gibi güvenli bir ortamda yapılmalıdır.")
                 
-                st.markdown("##### Örnek Çağrılar:")
-                st.code(f"{func_name}('test verisi', param='değer')", language="python")
-                st.code(f"{func_name}(10, 20)", language="python")
-                st.code(f"{func_name}('hata_oluştur', param='değer')", language="python")
+                # Üretilen koddan fonksiyon adını bulma
+                match = re.search(r"def (\w+)\(", result_code)
+                if match:
+                    func_name = match.group(1)
+                    st.markdown(f"**Üretilen fonksiyon adı:** `{func_name}`")
+                    
+                    st.markdown("##### Örnek Çağrılar:")
+                    st.code(f"{func_name}('test verisi', param='değer')", language="python")
+                    st.code(f"{func_name}(10, 20)", language="python")
+                    st.code(f"{func_name}('hata_oluştur', param='değer')", language="python")
+                else:
+                    st.warning("Üretilen kod içinde tanımlı bir Python fonksiyonu bulunamadı.")
+            except Exception as e:
+                st.error(f"🚨 Ana yetenek üretim sürecinde beklenmeyen bir hata oluştu: {e}")
+                st.code(traceback.format_exc())
 
-                # Eğer exec kullanılsaydı (uyarılarla birlikte):
-                # local_scope = {}
-                # try:
-                #     exec(result_code, globals(), local_scope)
-                #     generated_func = local_scope.get(func_name)
-                #     if generated_func:
-                #         st.write("---")
-                #         st.markdown("##### Gerçek Çağrı Sonucu (Örnek):")
-                #         st.write(generated_func("örnek argüman", özel_parametre="test"))
-                #         st.write("---")
-                #         st.markdown("##### Hata Tetikleme Çağrısı (Örnek):")
-                #         st.write(generated_func("örnek argüman", hata_oluştur="evet"))
-                # except Exception as e:
-                #     st.error(f"Üretilen kodu çalıştırma denemesinde hata: {e}")
-                #     st.code(traceback.format_exc())
-            else:
-                st.warning("Üretilen kod içinde tanımlı bir Python fonksiyonu bulunamadı.")
+    # Kod geçmişi gösterme/gizleme butonu ve durumu
+    if 'architect_history_display' not in st.session_state:
+        st.session_state.architect_history_display = False
 
-    if st.session_state.get('architect_history_display', False):
+    if st.button("Üretilen Kod Geçmişini Göster/Gizle", key="toggle_history"):
+        st.session_state.architect_history_display = not st.session_state.architect_history_display
+
+    if st.session_state.architect_history_display:
         st.subheader("Üretilen Kod Geçmişi:")
-        if architect.code_history:
-            for i, entry in enumerate(architect.code_history):
+        if st.session_state.code_history:
+            for i, entry in enumerate(st.session_state.code_history):
                 st.expander(f"İstek {i+1}: {entry['request']}", expanded=False).code(entry['code'], language="python")
         else:
             st.info("Henüz üretilmiş kod yok.")
+
+# Uygulamanın çalıştırılması
+if __name__ == "__main__":
+    ana_yetenekler()
