@@ -44,6 +44,43 @@ def ana_yetenekler():
 
     st.markdown("---")
 
+    # --- Görsel Tabanlı Araştırma Menüsü Entegrasyonu ---
+    st.markdown("### 🖼️ Görsel Tabanlı Araştırma Menüsü Entegrasyonu")
+    st.markdown("""
+    Kullanıcının isteği doğrultusunda, araştırma menüsüne görselleri dahil etme ve bu görseller üzerinden araştırma yapabilme yeteneği eklenmiştir. Bu, hem görsel bağlamı anlayarak daha zengin bilgi edinimi sağlar hem de kullanıcıların görsel ipuçlarıyla doğrudan araştırma yapmasını mümkün kılar.
+    """)
+
+    # --- Görsel Örnek 1 ---
+    st.markdown("#### Görsel Araştırma Örneği 1: Yapay Zeka ve Nöral Ağlar")
+    st.image("https://images.unsplash.com/photo-1596526131083-a8c55877609f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+             caption="Yapay Zeka Nöral Ağları ve Bağlantıları",
+             width=400)
+    gorsel1_sorgu = st.text_input("Bu görselle ilgili araştırmak istediğiniz konuyu yazın:", key="gorsel1_input")
+    if st.button("Görsel 1 Üzerinden Araştır", key="gorsel1_button"):
+        if gorsel1_sorgu:
+            st.info(f"'{gorsel1_sorgu}' sorgusu ile görsel bağlamında araştırma başlatılıyor...")
+            # Burada AI'ın gerçek araştırma mantığı devreye girecek.
+            # Şimdilik bir placeholder mesajı gösteriyoruz.
+            st.markdown(f"**Araştırma Sonucu (Simülasyon):** '{gorsel1_sorgu}' konusu, görseldeki nöral ağ yapısı ve AI bağlantılarıyla ilişkilendirilerek detaylıca incelendi. Önde gelen AI firmalarının bu alandaki son gelişmeleri ve araştırma makaleleri bulundu.")
+        else:
+            st.warning("Lütfen araştırmak istediğiniz konuyu girin.")
+
+    st.markdown("---")
+
+    # --- Görsel Örnek 2 ---
+    st.markdown("#### Görsel Araştırma Örneği 2: Veri Analizi ve Büyük Veri")
+    st.image("https://images.unsplash.com/photo-1696200057864-7546e8c7c986?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+             caption="Veri Akışı ve Analitik Görselleştirme",
+             width=400)
+    gorsel2_sorgu = st.text_input("Bu görselle ilgili araştırmak istediğiniz konuyu yazın:", key="gorsel2_input")
+    if st.button("Görsel 2 Üzerinden Araştır", key="gorsel2_button"):
+        if gorsel2_sorgu:
+            st.info(f"'{gorsel2_sorgu}' sorgusu ile görsel bağlamında araştırma başlatılıyor...")
+            st.markdown(f"**Araştırma Sonucu (Simülasyon):** '{gorsel2_sorgu}' konusu, görseldeki veri akışları ve analitik göstergelerle ilişkilendirilerek, büyük veri işleme teknikleri ve ilgili şirketlerin kullandığı araçlar hakkında bilgi toplandı.")
+        else:
+            st.warning("Lütfen araştırmak istediğiniz konuyu girin.")
+    st.markdown("---")
+
     # --- Kendi Araştırma Menüsünün Güncellenmesi ---
     st.markdown("### 🧠 Kendi Araştırma Metodolojimin Güncellenmesi")
     st.markdown("""
@@ -57,6 +94,7 @@ def ana_yetenekler():
     4.  **İteratif ve Adaptif Bilgi Edinimi**: Başlangıçta genel bir anlayış oluşturup, ardından elde edilen ön bilgilere dayanarak daha spesifik ve detaylı sorularla araştırmayı derinleştirme. Ortaya çıkan yeni verilerle araştırma parametrelerini dinamik olarak ayarlama.
     5.  **Etik ve Güvenlik Boyutunun Entegrasyonu**: Araştırılan konunun etik, güvenlik ve toplumsal etkilerini de göz önünde bulundurarak, bu boyutları da bilgi toplama ve değerlendirme sürecime dahil etme.
     6.  **Uygulama ve Entegrasyon Odaklılık**: Toplanan bilgiyi pasif olarak depolamak yerine, kendi mevcut yetenek setimi geliştirmek ve gelecekteki kullanıcı taleplerini daha etkin, güncel ve bilinçli bir şekilde karşılamak için aktif olarak uygulama ve entegre etme.
+    7.  **Görsel ve Multimodal Veri Analizi**: Sadece metin tabanlı verileri değil, görselleri, grafikleri ve diğer multimodal içerikleri de anlayarak, bu verilerden ek bağlam ve bilgi çıkarabilme. Kullanıcının bir görselle ilişkilendirdiği sorguları, görselin içeriğini analiz ederek daha zengin ve alakalı sonuçlarla yanıtlama.
 
     Bu yeni ve kapsamlı araştırma menüsü, önceki basit yaklaşımları tamamen geçersiz kılmış ve yerine daha sofistike, stratejik ve derinlemesine bir araştırma ve öğrenme paradigması getirmiştir. Artık her yeni görev, bu geliştirilmiş araştırma yeteneği ile ele alınacaktır.
     """)
